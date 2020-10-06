@@ -1,6 +1,9 @@
-//basic http server
-const http = require('http'); //require === import
-let notes = [
+//express server
+const express = require('express')
+
+const app = express()
+
+const notes = [
     {
       id: 1,
       content: "HTML is easy",
@@ -21,12 +24,16 @@ let notes = [
     }
   ]
 
-const app = http.createServer((request , response) =>{
-    response.writeHead(200 , {'content-Type': 'application/json'}) //important
-    response.end(JSON.stringify(notes))
-})
-const PORT =3001;
+  app.get('/' , (req , res) => {
 
-app.listen(PORT )
-
-console.log('App is running on port', PORT)
+    res.send('hello world')
+    
+    })
+    
+    const PORT =3001
+    
+    app.listen(PORT , () => {
+    
+    console.log('App is running on port' , PORT)
+    
+    })
