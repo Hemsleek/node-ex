@@ -1,9 +1,14 @@
 //express server
 const express = require('express')
+const cors =require('cors')
 
 const app = express()
 
 app.use(express.json())
+app.disable('x-powered-by')
+app.use(cors())
+
+require('dotenv').config()
 
 let persons = [
   { 
@@ -27,6 +32,9 @@ let persons = [
     "id": 4
   }
   ]
+  const generateId =  () => persons.length > 0? 
+                    Math.max(...persons.map(person => person.id)) + 1:
+                    1 
 
   app.get('/' , (req , res) => {
 
@@ -60,11 +68,15 @@ let persons = [
     res.status(200).end()
   })
  
-  app.post('/api/notes/' , (req, res) =>{
+  app.post('/api/persons/' , (req, res) =>{
 
-    const newNote = req.body
-    notes = notes.concat(newNote)
-    res.json(notes)
+    const newPerson = req.body
+    if(!newPerson.name || !newPerson.number) return res.status(400).send(`Name or Number is missing`)
+    if(persons.map(person => person.name === newPerson.name)) return res.status(409).send(`Name must be unique`)
+
+    newPerson.id =generateId() 
+    persons = persons.concat(newPerson)
+    res.json(persons)
   })
   
   app.patch('/api/notes/:id' , (req , res ) => {
@@ -89,7 +101,7 @@ let persons = [
 
   })
 
-  const PORT =3001
+  const PORT =process.env.PORT
     
   app.listen(PORT , () => {
     
