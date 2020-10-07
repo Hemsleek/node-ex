@@ -42,14 +42,14 @@ let persons = [
   app.get('/api/persons/' , (req , res ) => res.json(persons) )
 
 
-  app.get('/api/notes/:id' , (req , res ) => {
+  app.get('/api/persons/:id' , (req , res ) => {
       const {id} = req.params
       
-      const note = notes.find(note => note.id === parseInt(id))
+      const person = persons.find(person => person.id === parseInt(id))
 
-      if(!note) return res.status(404).send(`Note with id:${id} was not found`)
+      if(!person) return res.status(404).send(`person with id:${id} was not found`)
 
-      res.json(note)
+      res.json(person)
 
   })
 
