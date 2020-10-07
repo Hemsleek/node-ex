@@ -34,6 +34,14 @@ let persons = [
     
     })
     
+  app.get('/info/' , (req , res) => {
+    let numberOfPerson = persons.length
+    res.send(`Phonebook has info for ${numberOfPerson} people <br /> ${new Date()}`)
+  })
+
+  app.get('/api/persons/' , (req , res ) => res.json(persons) )
+
+
   app.get('/api/notes/:id' , (req , res ) => {
       const {id} = req.params
       
@@ -45,7 +53,6 @@ let persons = [
 
   })
 
-  app.get('/api/persons/' , (req , res ) => res.json(persons) )
 
   app.post('/api/notes/' , (req, res) =>{
 
