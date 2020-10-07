@@ -53,7 +53,13 @@ let persons = [
 
   })
 
-
+ 
+  app.delete('/api/persons/:id' , (req , res) => {
+    const {id} =req.params
+    persons = persons.filter(person => person.id !== parseInt(id))
+    res.status(200).end()
+  })
+ 
   app.post('/api/notes/' , (req, res) =>{
 
     const newNote = req.body
