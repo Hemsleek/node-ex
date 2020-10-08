@@ -2,9 +2,13 @@
 const express = require('express')
 const cors =require('cors')
 
+const morgan = require('morgan')
+
+
 const app = express()
 
 app.use(express.json())
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :req[content]'))
 app.disable('x-powered-by')
 app.use(cors())
 
