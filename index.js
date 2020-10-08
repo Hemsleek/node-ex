@@ -71,8 +71,9 @@ let persons = [
   app.post('/api/persons/' , (req, res) =>{
 
     const newPerson = req.body
+
     if(!newPerson.name || !newPerson.number) return res.status(400).send(`Name or Number is missing`)
-    if(persons.map(person => person.name === newPerson.name)) return res.status(409).send(`Name must be unique`)
+    if(persons.some(person => person.name === newPerson.name)) return res.status(409).send(`Name must be unique`)
 
     newPerson.id =generateId() 
     persons = persons.concat(newPerson)
