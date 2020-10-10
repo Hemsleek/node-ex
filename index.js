@@ -8,9 +8,13 @@ const morgan = require('morgan')
 const app = express()
 
 app.use(express.json())
-app.use(morgan(':method :url :status :res[content-length] - :response-time ms :req[content]'))
+
 app.disable('x-powered-by')
 app.use(cors())
+
+morgan.token('body' , (req , res) => JSON.stringify(req.body))
+
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
 
 require('dotenv').config()
 
@@ -36,19 +40,24 @@ let persons = [
     "id": 4
   }
   ]
+  
   const generateId =  () => persons.length > 0? 
                     Math.max(...persons.map(person => person.id)) + 1:
                     1 
 
   app.get('/' , (req , res) => {
 
-    res.send('hello world 😀 ')
+    res.json({
+      message:'hello world 😀 '
+    })
     
     })
     
   app.get('/info/' , (req , res) => {
     let numberOfPerson = persons.length
-    res.send(`Phonebook has info for ${numberOfPerson} people <br /> ${new Date()}`)
+    res.json({
+      message:`Phonebook has info for ${numberOfPerson} people <br /> ${new Date()}`
+  })
   })
 
   app.get('/api/persons/' , (req , res ) => res.json(persons) )
@@ -59,7 +68,10 @@ let persons = [
       
       const person = persons.find(person => person.id === parseInt(id))
 
-      if(!person) return res.status(404).send(`person with id:${id} was not found`)
+      if(!person) return res.status(404)
+                  .json({
+                       message:`person with id:${id} was not found`
+                  })
 
       res.json(person)
 
@@ -67,21 +79,34 @@ let persons = [
 
  
   app.delete('/api/persons/:id' , (req , res) => {
+
     const {id} =req.params
+   
+
+    if(!persons.find(person => person.id == parseInt(id))) return res.status(400).json({
+      message:'note does not exist'
+    })
     persons = persons.filter(person => person.id !== parseInt(id))
-    res.status(200).end()
+
+    res.json(persons)
+    
   })
  
   app.post('/api/persons/' , (req, res) =>{
 
     const newPerson = req.body
 
-    if(!newPerson.name || !newPerson.number) return res.status(400).send(`Name or Number is missing`)
-    if(persons.some(person => person.name === newPerson.name)) return res.status(409).send(`Name must be unique`)
+    if(!newPerson.name || !newPerson.number) return res.status(400).json({
+      message:`Name or Number is missing`
+    })
+    if(persons.some(person => person.name === newPerson.name)) return res.status(409).json({
+
+    message:'Name must be unique'
+  })
 
     newPerson.id =generateId() 
     persons = persons.concat(newPerson)
-    res.json(persons)
+    res.json(newPerson)
   })
   
   app.patch('/api/notes/:id' , (req , res ) => {
@@ -110,6 +135,8 @@ let persons = [
     
   app.listen(PORT , () => {
     
-  console.log('App is running on port' , PORT)
+    console.log('App is running on port' , PORT)
     
     })
+
+   
