@@ -83,9 +83,7 @@ let persons = [
     const {id} =req.params
    
 
-    if(!persons.find(person => person.id == parseInt(id))) return res.status(400).json({
-      message:'note does not exist'
-    })
+    if(!persons.find(person => person.id == parseInt(id))) return res.status(400).json(persons)
     persons = persons.filter(person => person.id !== parseInt(id))
 
     res.json(persons)
