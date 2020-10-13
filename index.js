@@ -129,11 +129,11 @@ let persons = [
 
   })
 
-  const PORT =process.env.PORT
+  const {port} = require('./config')
     
-  app.listen(PORT , () => {
+  app.listen(port , () => {
     
-    console.log('App is running on port' , PORT)
+    console.log('App is running on port' , port)
     
     })
 
