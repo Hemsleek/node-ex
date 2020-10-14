@@ -38,45 +38,43 @@ const personSchema = new Schema({
       },
     
 
-}, {collection:'people'}) //option1: add the name of the collection to use schema
+}) 
 
-const testSchema = new Schema({}) // option2: schema to connect to an existing collection
-
-const person = model('People' , testSchema , 'people') //option2: model to connect to an existing collection
+const Person = model('Person' , personSchema)
 
 if(process.argv.length === 3){
-  
-    person.find().then(result => {
 
-        console.log("yapiiiii")
-        console.log(JSON.stringify(result , null , 2))
-        process.exit(1)
-    
-    })
-    .catch(error => {
+    Person.find().then(res =>{
+        console.log('PhoneBook')
+        res.forEach(person => console.log(person.name , person.phoneNumber))
+        process.exit(1) 
+        })
+        .catch(error => {
 
         console.log({error})
         process.exit(1)
-    })
 
-    console.log('kukuma kill me')
+        })
+
+    console.log('Loading Data')
    
-
 }
+
 else if(process.argv.length > 3 && process.argv.length===5){
 
-    const newPerson = new person({
+    const newPerson = new Person({
         name: process.argv[3],
         phoneNumber: process.argv[4]
       })
       newPerson.save()
         .then(result => {
-            console.log('we have a new contact!')
-            console.log({ newPersonSaved: result })
+            console.log(`Added ${result.name} number ${result.phoneNumber} to PhoneBook`)
+            process.exit(1)
         })
-        .catch(console.log)
+        .catch((error) => {
+            console.log('error saving')
+            process.exit(1)
+        })
        
        
 }
-
- 
