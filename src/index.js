@@ -1,14 +1,16 @@
 //express server
 const express = require('express')
 const cors =require('cors')
-
 const morgan = require('morgan')
-
+const apiRouter = require('./routes')
+require('dotenv').config()
 
 const app = express()
 
-app.use(express.json())
 
+app.use(express.json())
+app.use('/api/v1',apiRouter)
+    .use('/v1' , apiRouter)
 app.disable('x-powered-by')
 app.use(cors())
 
@@ -16,7 +18,6 @@ morgan.token('body' , (req , res) => JSON.stringify(req.body))
 
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
 
-require('dotenv').config()
 
 let persons = [
   { 
@@ -40,10 +41,7 @@ let persons = [
     "id": 4
   }
   ]
-  
-  const generateId =  () => persons.length > 0? 
-                    Math.max(...persons.map(person => person.id)) + 1:
-                    1 
+          
 
   app.get('/' , (req , res) => {
 
@@ -129,7 +127,7 @@ let persons = [
 
   })
 
-  const {port} = require('./config')
+  const {port} = require('./utils/config')
     
   app.listen(port , () => {
     

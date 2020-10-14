@@ -44,8 +44,9 @@ const Person = model('Person' , personSchema)
 
 if(process.argv.length === 3){
 
-    Person.find().then(res =>{
+    Person.find({}, 'name phoneNumber -_id').then(res =>{
         console.log('PhoneBook')
+        console.log(res)
         res.forEach(person => console.log(person.name , person.phoneNumber))
         process.exit(1) 
         })
