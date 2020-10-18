@@ -4,9 +4,21 @@ const cors =require('cors')
 const morgan = require('morgan')
 const apiRouter = require('./routes')
 require('dotenv').config()
+const mongoose = require('mongoose')
 
 const app = express()
 
+const {DbUrl} =  require('./utils/config') 
+
+const DB_SETUP = {
+
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useFindAndModify: false,
+  useCreateIndex: false
+}
+
+mongoose.connect(DbUrl , DB_SETUP)
 
 app.use(express.json())
 app.use('/api/v1',apiRouter)
@@ -74,8 +86,7 @@ let persons = [
       res.json(person)
 
   })
-
- 
+   
   app.delete('/api/persons/:id' , (req , res) => {
 
     const {id} =req.params

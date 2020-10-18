@@ -15,8 +15,8 @@ router.patch('/persons/:id' , editPerson)
 router.delete('/persons/:id' , removePerson)
 
 router.all('/' , (req , res) => res.json({
-    message:'welcome😎',
-    hint:'try "/persons" sub-route'
+    message:'Welcome😎',
+    hint:"Try '/persons' sub-route"
 }))
 
 module.exports = router
