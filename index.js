@@ -19,11 +19,7 @@ app.use(morgan(':method :url :status :res[content-length] - :response-time ms :b
 require('dotenv').config()
 
 let persons = [
-  { 
-    "name": "Arto Hellas", 
-    "number": "040-123456",
-    "id": 1
-  },
+ 
   { 
     "name": "Ada Lovelace", 
     "number": "39-44-5323523",
@@ -41,9 +37,9 @@ let persons = [
   }
   ]
   
-  const generateId =  () => persons.length > 0? 
-                    Math.max(...persons.map(person => person.id)) + 1:
-                    1 
+  // const generateId =  () => persons.length > 0? 
+  //                   Math.max(...persons.map(person => person.id)) + 1:
+  //                   1 
 
   app.get('/' , (req , res) => {
 
