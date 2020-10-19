@@ -51,9 +51,9 @@ let persons = [
   ]
           
   
-  // const generateId =  () => persons.length > 0? 
-  //                   Math.max(...persons.map(person => person.id)) + 1:
-  //                   1 
+  const generateId =  () => persons.length > 0? 
+                    Math.max(...persons.map(person => person.id)) + 1:
+                    1 
 
   app.get('/' , (req , res) => {
 
@@ -116,24 +116,27 @@ let persons = [
     res.json(newPerson)
   })
   
-  app.patch('/api/notes/:id' , (req , res ) => {
+  app.patch('/api/persons/:id' , (req , res ) => {
     const {id} = req.params
-    const noteUpdate = req.body
+    const personUpdate = req.body
     
-    const note = notes.find(note => note.id === parseInt(id))
-    notes = notes.map(note => {
-      if(note.id === parseInt(id)){
-        note = {
-          ...note,
-          ...noteUpdate
+    const person = persons.find(p => p.id === parseInt(id))
+
+    if(!person) return res.status(400).json({message:`person id:${id} not found`})
+
+    persons = persons.map(p => {
+      if(p.id === parseInt(id)){
+        p = {
+          ...p,
+          ...personUpdate
         }
       }
-      return note
+      return p
     })
     
     res.status(200).json({
-      ...note,
-      ...noteUpdate
+      ...p,
+      ...personUpdate
     })
 
   })
