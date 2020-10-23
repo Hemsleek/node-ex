@@ -7,6 +7,7 @@ if(process.argv.length < 3) {
     console.log('please pass the database password as argument')
     process.exit(1)
     }
+    console.log(process.argv)
 const DbPass = process.argv[2]
 
 const DB_URL = `mongodb+srv://fullstack:${DbPass}@cluster0.8cmno.mongodb.net/ReactExercise?retryWrites=true&w=majority`
@@ -21,12 +22,16 @@ const DB_SETUP = {
 
 mongoose.connect(DB_URL , DB_SETUP)
 
-const personSchema = new Schema({
+const testSchema = new Schema({
     name:String,
 
     phoneNumber:{
         type:String,
         required:true
+    },
+    test:{
+        type:String,
+        default:"ana"
     },
     createdAt:{
         type:Date,
@@ -40,24 +45,42 @@ const personSchema = new Schema({
 
 }) 
 
-const Person = model('Person' , personSchema)
+const Test = model('Test' , testSchema)
 
 if(process.argv.length === 3){
 
-    Person.find({}, 'name phoneNumber -_id').then(res =>{
-        console.log('PhoneBook')
-        console.log(res)
-        res.forEach(person => console.log(person.name , person.phoneNumber))
-        process.exit(1) 
-        })
-        .catch(error => {
+    // Test.find({}, 'name phoneNumber -_id').then(res =>{
+    //     console.log('PhoneBook')
+    //     console.log(res)
+    //     res.forEach(person => console.log(person.name , person.phoneNumber))
+    //     process.exit(1) 
+    //     })
+    //     .catch(error => {
 
-        console.log({error})
-        process.exit(1)
+    //     console.log({error})
+    //     process.exit(1)
 
-        })
+    //     })
 
-    console.log('Loading Data')
+    // console.log('Loading Data')
+    // const newTest = new Test({
+    //    name:'mubashir',
+    //    phoneNumber:'08173435345',
+
+    // }).save().then(result => console.log(result)).catch(error => console.log(error))
+    async function test(){
+        testSchema.add({prefix:{aa :String}})
+        
+        const testt = await Test.findOne({"name": "mubashir"})
+        console.log(testt)
+        
+        // testt.set(test , 'sdsfdsgg')
+        // console.log(testt)
+    }
+         
+    test()
+
+     
    
 }
 

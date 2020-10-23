@@ -21,3 +21,4 @@ const personSchema = new Schema({
 })
 
 module.exports = model('Person' , personSchema)
+

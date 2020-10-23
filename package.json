@@ -4,8 +4,9 @@
   "description": "A series of node exercises",
   "main": "src/index.js",
   "scripts": {
-    "dev": "nodemon src/index.js",
     "start": "node src/index.js",
+    "mongo" : "node src/utils/mongo.js 8xF9C8eNK2Z8lqEi",
+    "dev": "nodemon src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
